@@ -51,12 +51,16 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="{{ asset('admin/images/img.jpg') }}" alt="..."
+                            @if (auth()->user()->image)
+                            <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="{{ auth()->user()->full_name }}"
                                 class="img-circle profile_img">
+                            @else
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->full_name) }}&color=73879C&background=E9ACE3" alt="{{ auth()->user()->name }}" class="img-circle profile_img">
+                            @endif
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>John Doe</h2>
+                            <h2>{{ auth()->user()->full_name }}</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
