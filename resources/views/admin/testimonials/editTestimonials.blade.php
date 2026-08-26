@@ -47,53 +47,82 @@
 								</div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Name <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="name" required="required" class="form-control ">
-											</div>
-										</div>
-                                        <div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Position <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="position" required="required" class="form-control ">
-											</div>
-										</div>
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<textarea id="content" name="content" required="required" class="form-control">Contents</textarea>
-											</div>
-										</div>
-										
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align">Published</label>
-											<div class="checkbox">
-												<label>
-													<input type="checkbox" class="flat">
-												</label>
-											</div>
-										</div>
-										<div class="item form-group">
-											<label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image <span class="required">*</span>
-											</label>
-											<div class="col-md-6 col-sm-6 ">
-												<input type="file" id="image" name="image" required="required" class="form-control">
-											</div>
-										</div>
-										<div class="ln_solid"></div>
-										<div class="item form-group">
-											<div class="col-md-6 col-sm-6 offset-md-3">
-												<button class="btn btn-primary" type="button">Cancel</button>
-												<button type="submit" class="btn btn-success">Add</button>
-											</div>
-										</div>
+									<form action="{{ route('admin.testimonials.update', $testimonial->id) }}" method="POST" enctype="multipart/form-data" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                        @csrf
+                                        @method('PUT')
 
-									</form>
+                                        <!-- Name -->
+                                        <div class="item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Name <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="name" name="name" value="{{ old('name', $testimonial->name) }}" required="required" class="form-control @error('name') is-invalid @enderror">
+                                                @error('name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <!-- Position -->
+                                        <div class="item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="position">Position <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <input type="text" id="position" name="position" value="{{ old('position', $testimonial->position) }}" required="required" class="form-control @error('position') is-invalid @enderror">
+                                                @error('position')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <!-- Content -->
+                                        <div class="item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content <span class="required">*</span>
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <textarea id="content" name="content" required="required" class="form-control @error('content') is-invalid @enderror">{{ old('content', $testimonial->content) }}</textarea>
+                                                @error('content')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Published -->
+                                        <div class="item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Published</label>
+                                            <div class="checkbox col-md-6 col-sm-6" style="padding-top: 6px;">
+                                                <label>
+                                                    <input type="checkbox" name="is_published" value="1" {{ old('is_published', $testimonial->is_published) ? 'checked' : '' }} class="flat">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Image -->
+                                        <div class="item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 ">
+                                                <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror">
+                                                @error('image')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                                @if ($testimonial->image)
+                                                    <div class="mt-2">
+                                                        <img src="{{ asset('storage/' . $testimonial->image) }}" alt="Current Image" width="100" class="img-thumbnail">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="ln_solid"></div>
+                                        <div class="item form-group">
+                                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                                <a href="{{ route('admin.testimonials.index') }}" class="btn btn-primary">Cancel</a>
+                                                <button type="submit" class="btn btn-success">Update</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
 								</div>
 							</div>
 						</div>

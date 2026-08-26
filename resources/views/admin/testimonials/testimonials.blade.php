@@ -8,6 +8,14 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
+                @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
                 <h3>Manage Testimonials</h3>
               </div>
 
@@ -60,27 +68,37 @@
                         </tr>
                       </thead>
                       <tbody>
+                        @forelse ($testimonials as $testimonial)
                         <tr>
-                          <td>Car 10</td>
-                          <td>250</td>
-                          <td>Yes</td>
-                          <td><img src="{{ asset('admin/images/edit.png') }}" alt="Edit"></td>
-                          <td><img src="{{ asset('admin/images/delete.png') }}" alt="Delete"></td>
+                          <td>{{ $testimonial->name }}</td>
+                          <td>{{ $testimonial->position ?? 'N/A' }}</td>
+                          <td>
+                            @if ($testimonial->is_published)
+                              <span class="badge badge-success">Yes</span>
+                            @else
+                              <span class="badge badge-secondary">No</span>
+                            @endif
+                          </td>
+                          <td>
+                            <a href="{{ route('admin.testimonials.edit', $testimonial->id) }}">
+                              <img src="{{ asset('admin/images/edit.png') }}" alt="Edit">
+                            </a>
+                          </td>
+                          <td>
+                            <form action="{{ route('admin.testimonials.destroy', $testimonial->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this testimonial?');">
+                              @csrf
+                              @method('DELETE')
+                                <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
+                                  <img src="{{ asset('admin/images/delete.png') }}" alt="Delete">
+                                </button>
+                            </form>
+                          </td>
                         </tr>
-                        <tr>
-                          <td>Car 1</td>
-                          <td>150</td>
-                          <td>Yes</td>
-                          <td><img src="./images/edit.png" alt="Edit"></td>
-                          <td><img src="./images/delete.png" alt="Delete"></td>
-                        </tr>
-                        <tr>
-                          <td>Car 2</td>
-                          <td>200</td>
-                          <td>Yes</td>
-                          <td><img src="./images/edit.png" alt="Edit"></td>
-                          <td><img src="./images/delete.png" alt="Delete"></td>
-                        </tr>
+                        @empty
+                          <tr>
+                           <td colspan="5" class="text-center">No testimonials found.</td>
+                          </tr>
+                        @endforelse
                         
                       </tbody>
                     </table>
