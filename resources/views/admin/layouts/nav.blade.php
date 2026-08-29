@@ -33,67 +33,54 @@
                      <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
                          data-toggle="dropdown" aria-expanded="false">
                          <i class="fa fa-envelope-o"></i>
-                         <span class="badge bg-green">6</span>
+                         @if ($unreadCount > 0)
+                             <span class="badge bg-green">{{ $unreadCount }}</span>
+                         @endif
                      </a>
                      <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                         <li class="nav-item">
-                             <a class="dropdown-item">
-                                 <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                     <span>John Smith</span>
-                                     <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                     Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="dropdown-item">
-                                 <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                     <span>John Smith</span>
-                                     <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                     Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="dropdown-item">
-                                 <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                     <span>John Smith</span>
-                                     <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                     Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="dropdown-item">
-                                 <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                 <span>
-                                     <span>John Smith</span>
-                                     <span class="time">3 mins ago</span>
-                                 </span>
-                                 <span class="message">
-                                     Film festivals used to be do-or-die moments for movie makers. They were where...
-                                 </span>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <div class="text-center">
-                                 <a class="dropdown-item">
-                                     <strong>See All Alerts</strong>
-                                     <i class="fa fa-angle-right"></i>
+                         @forelse($unreadMessages as $msg)
+                             <li class="nav-item">
+                                 <a class="dropdown-item" href="{{ route('admin.contacts.show', $msg->id) }}">
+                                     <span>
+                                         <span>{{ $msg->first_name }} {{ $msg->last_name }}</span>
+                                         <span class="time">{{ $msg->created_at->diffForHumans() }}</span>
+                                     </span>
+                                     <span class="message">
+                                         {{ Str::limit($msg->message, 50) }}
+                                     </span>
                                  </a>
-                             </div>
-                         </li>
+                             </li>
+                         @empty
+                             <li class="nav-item">
+                                 <a class="dropdown-item text-center">
+                                     <span>No unread messages</span>
+                                 </a>
+                             </li>
+                         @endforelse
+
+                         @if ($unreadCount > 0)
+                             <li class="nav-item">
+                                 <div class="text-center">
+                                     <a class="dropdown-item" href="{{ route('admin.contacts.index') }}">
+                                         <strong>See All Messages</strong>
+                                         <i class="fa fa-angle-right"></i>
+                                     </a>
+                                 </div>
+                             </li>
+                         @endif
                      </ul>
                  </li>
+
+                 {{-- <li class="nav-item">
+                     <div class="text-center">
+                         <a class="dropdown-item">
+                             <strong>See All Alerts</strong>
+                             <i class="fa fa-angle-right"></i>
+                         </a>
+                     </div>
+                 </li> --}}
+             </ul>
+             </li>
              </ul>
          </nav>
      </div>

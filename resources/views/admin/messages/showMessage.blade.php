@@ -28,12 +28,17 @@
             <div class="row">
               <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
-                  <h2>Full Name: John Doe</h2>
-                  <br>
-                  <h2>Email: John@gmail.com</h2>
-                   <br>
-                  <h2>Message Content:</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In nisi facilis, excepturi ipsum recusandae quidem doloribus veniam quisquam at, dignissimos autem quos iste libero sint architecto voluptatem consectetur possimus nobis.</p>
+                  <h2><strong>Full Name:</strong> {{ $contact->first_name }} {{ $contact->last_name }}</h2>
+                        <br>
+                        <h2><strong>Email:</strong> {{ $contact->email }}</h2>
+                        <br>
+                        <h2><strong>Date:</strong> {{ $contact->created_at->format('Y-m-d H:i A') }}</h2>
+                        <br>
+                        <h2><strong>Message Content:</strong></h2>
+                        <p class="lead" style="white-space: pre-line;">{{ $contact->message }}</p>
+                        
+                        <hr>
+                        <a href="{{ route('admin.contacts.index') }}" class="btn btn-primary">Back to Messages</a>
                 </div>
               </div>
             </div>

@@ -46,40 +46,62 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                      <div class="row">
-                          <div class="col-sm-12">
-                            <div class="card-box table-responsive">
-                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                      <thead>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
                         <tr>
-                          <th>Full Name</th>
-                          <th>Email</th>
-                          <th>Show</th>
-                          <th>Delete</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Show</th>
+                            <th>Delete</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>First Name and Last Name</td>
-                          <td>mail@example.com</td>
-                          <td><img src="{{ asset('admin/images/edit.png') }}" alt="Edit"></td>
-                          <td><img src="{{ asset('admin/images/delete.png') }}" alt="Delete"></td>
-                        </tr>
-                        <tr>
-                          <td>First Name and Last Name</td>
-                          <td>mail@example.com</td>
-                          <td><img src="./images/edit.png" alt="Edit"></td>
-                          <td><img src="./images/delete.png" alt="Delete"></td>
-                        </tr>
-                        <tr>
-                          <td>First Name and Last Name</td>
-                          <td>mail@example.com</td>
-                          <td><img src="./images/edit.png" alt="Edit"></td>
-                          <td><img src="./images/delete.png" alt="Delete"></td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
+                    </thead>
+                    <tbody>
+                        @forelse($messages as $message)
+                            <tr style="{{ !$message->is_read ? 'font-weight: bold; background-color: #f7f9fa;' : '' }}">
+                                <td>{{ $message->first_name }} {{ $message->last_name }}</td>
+                                <td>{{ $message->email }}</td>
+                                <td>
+                                    @if($message->is_read)
+                                        <span class="badge badge-secondary">Read</span>
+                                    @else
+                                        <span class="badge badge-success">New</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.contacts.show', $message->id) }}">
+                                        <img src="{{ asset('admin/images/edit.png') }}" alt="Show">
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="{{ route('admin.contacts.destroy', $message->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?');" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                                            <img src="{{ asset('admin/images/delete.png') }}" alt="Delete">
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No messages found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
                   </div>
                   </div>
               </div>
