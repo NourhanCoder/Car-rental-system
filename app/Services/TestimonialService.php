@@ -21,6 +21,18 @@ class TestimonialService
             
     }
 
+
+    /**
+ * Get the latest published reviews for the home page
+ */
+
+    public function getLatestTestimonials(int $limit = 3): Collection
+    {
+        return Testimonial::with('user')
+        ->where('is_published', true)->latest()
+        ->take($limit)->get();
+    }
+
     public function store(array $data): Testimonial
     {
         if (isset($data['image'])) {

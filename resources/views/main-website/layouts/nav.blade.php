@@ -5,7 +5,7 @@
 
     <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
         <ul class="site-menu main-menu js-clone-nav ml-auto ">
-            <li class="active"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="active"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
             <li><a href="listing.html" class="nav-link">Listing</a></li>
             <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
             <li><a href="blog.html" class="nav-link">Blog</a></li>

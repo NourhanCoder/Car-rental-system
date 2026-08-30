@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Car;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 class CarService
 {
@@ -17,6 +17,17 @@ class CarService
     public function getAllCars(): Collection
     {
         return Car::with('category')->latest()->get();
+    }
+
+
+    /**
+ * Get the latest active cars for the home page
+ */
+    public function getFeaturedCars(int $limit = 6): Collection
+    {
+        return Car::with('category')
+        ->where('is_active', true)->latest()
+        ->take($limit)->get();
     }
 
 
