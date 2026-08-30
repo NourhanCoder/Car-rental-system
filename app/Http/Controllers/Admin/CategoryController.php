@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
+use App\Models\Category;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -35,22 +36,21 @@ class CategoryController extends Controller
         ->with('success', 'Category created successfully!');
     }
 
-    public function edit(int $id)
+    public function edit(Category $category)
     {
-        $category = $this->categoryService->getCategoryById($id);
         return view('admin.categories.editCategory', compact('category'));
     }
 
-    public function update(UpdateCategoryRequest $request, int $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $this->categoryService->updateCategory($id, $request->validated());
+        $this->categoryService->updateCategory($category, $request->validated());
         return redirect()->route('admin.categories.index')
         ->with('success', 'Category updated successfully!');
     }
 
-    public function destroy(int $id)
+    public function destroy(Category $category)
     {
-       $this->categoryService->deleteCategory($id);
+       $this->categoryService->deleteCategory($category);
        return redirect()->route('admin.categories.index')
        ->with('success', 'Category deleted successfully!');
     }

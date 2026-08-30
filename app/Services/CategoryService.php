@@ -14,10 +14,6 @@ class CategoryService
         return Category::latest()->get();
     }
 
-    public function getCategoryById(int $id): Category
-    {
-        return Category::findOrFail($id);
-    }
 
     public function createCategory(array $data): Category
     {
@@ -25,17 +21,15 @@ class CategoryService
         return Category::create($data);
     }
 
-    public function updateCategory(int $id, array $data): Category
+    public function updateCategory(Category $category, array $data): Category
     {
-        $category = $this->getCategoryById($id);
         $data['slug'] = Str::slug($data['name']);
         $category->update($data);
         return $category;
     }
 
-    public function deleteCategory(int $id): bool
+    public function deleteCategory(Category $category): bool
     {
-        $category = $this->getCategoryById($id);
         return $category->delete();
     }
 }

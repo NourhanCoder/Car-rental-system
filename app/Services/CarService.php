@@ -19,10 +19,6 @@ class CarService
         return Car::with('category')->latest()->get();
     }
 
-    public function getCarById(int $id): Car
-    {
-        return Car::findOrFail($id);
-    }
 
     public function createCar(array $data): Car
     {
@@ -35,10 +31,8 @@ class CarService
         return Car::create($data);
     }
 
-    public function updateCar(int $id, array $data): Car
+    public function updateCar(Car $car, array $data): Car
     {
-        $car = $this->getCarById($id);
-
         if (isset($data['image'])){
             $data['image'] = $this->imageUploadService->uploadImage(
                 $data['image'],
@@ -57,10 +51,8 @@ class CarService
         return $car;
     }
 
-    public function deleteCar(int $id): bool
+    public function deleteCar(Car $car): bool
     {
-        $car = $this->getCarById($id);
-
         if ($car->image){
             $this->imageUploadService->deleteImage($car->image);
         }

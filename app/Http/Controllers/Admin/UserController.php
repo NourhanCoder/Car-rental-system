@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -31,19 +32,6 @@ class UserController extends Controller
         return view('admin.users.users', compact('users'));
     }
 
-    public function edit(int $id): View
-    {
-        $user = $this->userService->getUserById($id);
-        return view('admin.users.edituser', compact('user'));
-    }
-
-    public function update(UpdateUserRequest $request, int $id)
-    {
-        $this->userService->updateUser($id, $request->validated());
-        return redirect()->route('admin.users.index')
-        ->with('success', 'User updated successfully!');
-    }
-
     public function create()
     {
         return view('admin.users.addUser');
@@ -55,4 +43,18 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
         ->with('success', 'User created successfully!');
     }
+
+    public function edit(User $user): View
+    {
+        return view('admin.users.edituser', compact('user'));
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $this->userService->updateUser($user, $request->validated());
+        return redirect()->route('admin.users.index')
+        ->with('success', 'User updated successfully!');
+    }
+
+    
 }

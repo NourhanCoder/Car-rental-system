@@ -24,14 +24,28 @@ class UserService
         return User::latest()->get();
     }
 
-    public function getUserById(int $id): User
+
+       public function createUser(array $data): User
     {
-        return User::findOrFail($id);
+        if (isset($data['role'])) {
+            $data['is_admin'] = ($data['role'] === 'admin') ? 1 : 0;
+            unset($data['role']); 
+        }
+        
+        $data['password'] = Hash::make($data['password']);
+
+        $data['is_active'] = isset($data['is_active']) ? 1 : 0;
+
+        if (isset($data['image'])) {
+            $data['image'] = $this->imageUploadService->uploadImage($data['image'], 'users');
+        }
+
+        return User::create($data);
     }
 
-    public function updateUser(int $id, array $data): User
+
+    public function updateUser(User $user, array $data): User
     {
-        $user = $this->getUserById($id);
 
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
@@ -56,21 +70,5 @@ class UserService
     }
 
 
-    public function createUser(array $data): User
-    {
-        if (isset($data['role'])) {
-            $data['is_admin'] = ($data['role'] === 'admin') ? 1 : 0;
-            unset($data['role']); 
-        }
-        
-        $data['password'] = Hash::make($data['password']);
-
-        $data['is_active'] = isset($data['is_active']) ? 1 : 0;
-
-        if (isset($data['image'])) {
-            $data['image'] = $this->imageUploadService->uploadImage($data['image'], 'users');
-        }
-
-        return User::create($data);
-    }
+ 
 }

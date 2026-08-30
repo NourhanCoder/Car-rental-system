@@ -23,7 +23,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('id');
+        $userId = $this->route('user') instanceof \App\Models\User
+            ? $this->route('user')->id : $this->route('user');
 
         return [
             'full_name' => ['required', 'string', 'max:255'],
