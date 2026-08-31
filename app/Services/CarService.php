@@ -14,26 +14,50 @@ class CarService
         $this->imageUploadService = $imageUploadService;
     }
 
+
+
+    /**
+     *  USER SIDE
+     */
+
+    //Get the latest active cars for the home page
+
+    public function getFeaturedCars(int $limit = 6): Collection
+    {
+        return Car::with('category')
+            ->where('is_active', true)->latest()
+            ->take($limit)->get();
+    }
+
+    //for listing page to show only 6 cars for each page
+    public function getPaginatedCars(int $perPage = 6)
+    {
+        return Car::where('is_active', true)->latest()->paginate($perPage);
+    }
+
+    //for single page 
+    public function getCarDetails(Car $car): Car 
+    {
+       if (!$car->is_active){
+        abort(404);
+       }
+       return $car;
+    }
+
+
+
+    /**
+     *  ADMIN SIDE
+     */
     public function getAllCars(): Collection
     {
         return Car::with('category')->latest()->get();
     }
 
 
-    /**
- * Get the latest active cars for the home page
- */
-    public function getFeaturedCars(int $limit = 6): Collection
-    {
-        return Car::with('category')
-        ->where('is_active', true)->latest()
-        ->take($limit)->get();
-    }
-
-
     public function createCar(array $data): Car
     {
-        if(isset($data['image'])){
+        if (isset($data['image'])) {
             $data['image'] = $this->imageUploadService->uploadImage($data['image'], 'cars');
         }
 
@@ -44,16 +68,14 @@ class CarService
 
     public function updateCar(Car $car, array $data): Car
     {
-        if (isset($data['image'])){
+        if (isset($data['image'])) {
             $data['image'] = $this->imageUploadService->uploadImage(
                 $data['image'],
                 'cars',
-                $car->image 
+                $car->image
             );
-                
-        }else{
+        } else {
             unset($data['image']);
-
         }
 
         $data['is_active'] = isset($data['is_active']) ? true : false;
@@ -64,7 +86,7 @@ class CarService
 
     public function deleteCar(Car $car): bool
     {
-        if ($car->image){
+        if ($car->image) {
             $this->imageUploadService->deleteImage($car->image);
         }
         return $car->delete();

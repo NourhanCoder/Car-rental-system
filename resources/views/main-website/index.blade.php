@@ -170,9 +170,9 @@
                     </div>
                     <p>{{ Str::limit($car->content, 80) }}</p>
                   </div>
-                  {{-- {{ route('cars.show', $car->id) }} --}}
+                  
                   <div class="pt-2">
-                    <a href="" class="btn btn-primary btn-sm w-100 text-center">Rent Now</a>
+                    <a href="{{ route('singlepage', $car) }}" class="btn btn-primary btn-sm w-100 text-center">Rent Now</a>
                   </div>
                 </div>
               </div>
