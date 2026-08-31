@@ -7,7 +7,7 @@
         <ul class="site-menu main-menu js-clone-nav ml-auto ">
             <li class="active"><a href="{{ route('home') }}" class="nav-link">Home</a></li>
             <li><a href="{{ route('listingcars') }}" class="nav-link">Listing</a></li>
-            <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+            <li><a href="{{ route('testimonials.index') }}" class="nav-link">Testimonials</a></li>
             <li><a href="{{ route('about-us') }}" class="nav-link">About</a></li>
             <li><a href="{{ route('contact.index') }}" class="nav-link">Contact</a></li>
         </ul>
