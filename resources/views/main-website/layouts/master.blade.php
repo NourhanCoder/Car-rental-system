@@ -86,6 +86,9 @@
 
     <script src="{{ asset('js/main.js') }}"></script>
 
+    <livewire:chatbot />
+    @livewireScripts
+    
   </body>
 
 </html>
