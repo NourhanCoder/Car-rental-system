@@ -16,6 +16,7 @@ class Booking extends Model
         'drop_off_date',
         'total_price',
         'status',
+        'paymob_order_id',
     ];
 
     protected function casts(): array

@@ -62,6 +62,24 @@
                             @enderror
                         </div>
 
+                        <!-- Phone Field -->
+                        <div class="mt-2">
+                            <input type="text" name="phone" class="form-control" placeholder="Phone Number"
+                                value="{{ old('phone') }}" required autocomplete="tel" />
+                            @error('phone')
+                                <span class="text-danger small pull-left">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Address Field -->
+                        <div class="mt-2">
+                            <input type="text" name="address" class="form-control" placeholder="Address"
+                                value="{{ old('address') }}" required autocomplete="street-address" />
+                            @error('address')
+                                <span class="text-danger small pull-left">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         <!-- Password Field -->
                         <div class="mt-2">
                             <input type="password" name="password" class="form-control" placeholder="Password" required

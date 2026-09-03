@@ -19,6 +19,25 @@
 
     <div class="site-section bg-light">
       <div class="container">
+
+        <!-- Flash Messages (Payment Alerts) -->
+    @if (session('success'))
+      <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    @endif
+
+    @if (session('error'))
+      <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+        <strong>Error!</strong> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    @endif
         <div class="row">
           <div class="col-lg-7">
             <h2 class="section-heading"><strong>Car Listings</strong></h2>
