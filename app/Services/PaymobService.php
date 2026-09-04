@@ -39,6 +39,8 @@ class PaymobService
      */
     public function getAuthToken(): string
     {
+        // Cache the token for one hour instead of requesting it on every request
+        return cache()->remember('paymob_auth_token', 3600, function () {
         $response = Http::post("{$this->baseUrl}/auth/tokens", [
             'api_key' => $this->apiKey,
         ]);
@@ -48,6 +50,7 @@ class PaymobService
         }
 
         return $response->json('token');
+        });
     }
 
   
