@@ -25,10 +25,10 @@ class CarController extends Controller
 
     public function index(Request $request): View
     {
-        $cars = $this->carService->getPaginatedCars(6);
+        // $cars = $this->carService->getPaginatedCars(6);
         $testimonials = $this->testimonialService->getLatestTestimonials(3);
 
-        return view('main-website.listing', compact('cars', 'testimonials'));
+        return view('main-website.listing', compact( 'testimonials'));
     }
 
     public function show(Car $car): View

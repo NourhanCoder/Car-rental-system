@@ -36,12 +36,25 @@ class CarService
     }
 
     //for single page 
-    public function getCarDetails(Car $car): Car 
+    public function getCarDetails(Car $car): Car
     {
-       if (!$car->is_active){
-        abort(404);
-       }
-       return $car;
+        if (!$car->is_active) {
+            abort(404);
+        }
+        return $car;
+    }
+
+    /**
+     * Get paginated active cars filtered by selected categories.
+     */
+    public function getFilteredCars(array $categoryIds = [], int $perPage = 6)
+    {
+        return Car::where('is_active', true)
+            ->when(!empty($categoryIds), function ($query) use ($categoryIds) {
+                $query->whereIn('category_id', $categoryIds);
+            })
+            ->latest()
+            ->paginate($perPage);
     }
 
 
