@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegisterRequest;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class AuthController extends Controller
             'is_admin'  => false,
             'is_active' => true,
         ]);
+        $user->notify(new WelcomeNotification());
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
