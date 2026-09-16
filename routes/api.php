@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +18,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/cars', [CarController::class, 'index']);
 Route::get('/cars/{car}', [CarController::class, 'show']);
+// Paymob Callback (Public Endpoint for Paymob server)
+Route::match(['get', 'post'], '/payments/paymob/callback', [PaymentController::class, 'callback']);
 
 
 /*
@@ -26,6 +30,8 @@ Route::get('/cars/{car}', [CarController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/user', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::post('/bookings/{booking}/pay', [PaymentController::class, 'pay']);
 });
 
 

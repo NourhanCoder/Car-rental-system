@@ -24,7 +24,7 @@ class PaymobService
     }
 
 
-      /**
+    /**
      * Convert booking total price to amount in cents (EGP)
      */
     private function calculateAmountInCents(Booking $booking): int
@@ -41,19 +41,19 @@ class PaymobService
     {
         // Cache the token for one hour instead of requesting it on every request
         return cache()->remember('paymob_auth_token', 3600, function () {
-        $response = Http::post("{$this->baseUrl}/auth/tokens", [
-            'api_key' => $this->apiKey,
-        ]);
+            $response = Http::post("{$this->baseUrl}/auth/tokens", [
+                'api_key' => $this->apiKey,
+            ]);
 
-        if ($response->failed()) {
-            throw new Exception('Failed to connect to the Paymob gateway to obtain the authentication token.');
-        }
+            if ($response->failed()) {
+                throw new Exception('Failed to connect to the Paymob gateway to obtain the authentication token.');
+            }
 
-        return $response->json('token');
+            return $response->json('token');
         });
     }
 
-  
+
 
     // Step 2: Register the payment order and convert the amount to Egyptian Pounds (Order Registration)
     public function createOrder(string $authToken, Booking $booking): int
@@ -120,25 +120,46 @@ class PaymobService
     }
 
     /**
-     * Combine the three steps and return the ready-to-use iFrame URL
+     * Private Helper: Prepare the token and build the paymobOrderId when needed
+     */
+    private function generatePaymentToken(Booking $booking): string
+    {
+        // 1. Fetch the primary session token from Paymob
+        $authToken = $this->getAuthToken();
+
+        // 2. Check if an Order ID exists for the booking; if not, create a new one and save it to the database
+        if(!$booking->paymob_order_id) {
+            $paymobOrderId = $this->createOrder($authToken, $booking);
+            $booking->update(['paymob_order_id' => $paymobOrderId]);
+        }else{
+            $paymobOrderId = $booking->paymob_order_id;
+        }
+        // 3. Generate the customer's payment key token
+        return $this->getPaymentToken($authToken, $paymobOrderId, $booking);
+    }
+
+
+    /**
+     * Web Controller Method (Blade): Returns the iFrame URL ready for redirection.
      */
     public function checkout(Booking $booking): string
     {
-        // $authToken     = $this->getAuthToken();
-        // $paymobOrderId = $this->createOrder($authToken, $booking);
-        // $paymentToken  = $this->getPaymentToken($authToken, $paymobOrderId, $booking);
-        $authToken = $this->getAuthToken();
-
-        // check before create a new order
-        if (!$booking->paymob_order_id) {
-            $paymobOrderId = $this->createOrder($authToken, $booking);
-            $booking->update(['paymob_order_id' => $paymobOrderId]);
-        } else {
-            $paymobOrderId = $booking->paymob_order_id;
-        }
-
-        $paymentToken = $this->getPaymentToken($authToken, $paymobOrderId, $booking);
+       $paymentToken = $this->generatePaymentToken($booking);
 
         return "https://accept.paymob.com/api/acceptance/iframes/{$this->iframeId}?payment_token={$paymentToken}";
+    }
+
+    /**
+     * Get payment checkout details for API response
+     */
+    public function getCheckoutDetails(Booking $booking): array
+    {
+        $paymentToken = $this->generatePaymentToken($booking);
+
+        return [
+            'paymob_order_id' => $booking->paymob_order_id,
+            'payment_token'   => $paymentToken,
+            'iframe_url'      => "https://accept.paymob.com/api/acceptance/iframes/{$this->iframeId}?payment_token={$paymentToken}",
+        ];
     }
 }
