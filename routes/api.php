@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\CarController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\PaymentController;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ Route::get('/cars', [CarController::class, 'index']);
 Route::get('/cars/{car}', [CarController::class, 'show']);
 // Paymob Callback (Public Endpoint for Paymob server)
 Route::match(['get', 'post'], '/payments/paymob/callback', [PaymentController::class, 'callback']);
+Route::post('/contact', [ContactController::class, 'store']);
 
 
 /*
