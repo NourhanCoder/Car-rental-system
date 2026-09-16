@@ -18,14 +18,21 @@
                          {{ auth()->user()->full_name }}
                      </a>
                      <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                         <a class="dropdown-item" href="javascript:;"> Profile</a>
+                         {{-- <a class="dropdown-item" href="javascript:;"> Profile</a>
                          <a class="dropdown-item" href="javascript:;">
                              <span class="badge bg-red pull-right">50%</span>
                              <span>Settings</span>
                          </a>
-                         <a class="dropdown-item" href="javascript:;">Help</a>
-                         <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i> Log
-                             Out</a>
+                         <a class="dropdown-item" href="javascript:;">Help</a> --}}
+                         <a class="dropdown-item" href="#"
+                             onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+                             <i class="fa fa-sign-out pull-right"></i> Log Out
+                         </a>
+
+                         <form id="admin-logout-form" action="{{ route('logout') }}" method="POST"
+                             style="display: none;">
+                             @csrf
+                         </form>
                      </div>
                  </li>
 
