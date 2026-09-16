@@ -16,7 +16,7 @@ class ChatbotService
      * Send user prompt to Groq AI API and get the response.
      */
    
-    public function askGemini(string $userPrompt): string
+    public function askAi(string $userPrompt): string
     {
         // Get the Groq API key from .env file
         $apiKey = env('GROQ_API_KEY');

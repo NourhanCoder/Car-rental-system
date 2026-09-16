@@ -61,7 +61,7 @@ class Chatbot extends Component
         $this->userMessage = ''; // Clear input field
 
         // 2. Get AI response from ChatbotService
-        $aiResponse = $chatbotService->askGemini($prompt);
+        $aiResponse = $chatbotService->askAi($prompt);
 
         // 3. Add the bot response to local state
         $this->messages[] = [

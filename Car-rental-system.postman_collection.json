@@ -1,0 +1,417 @@
+{
+  "info": {
+    "_postman_id": "f7710cd0-7611-4667-ac6a-02bba1d279d0",
+    "name": "Car-rental-system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "43804063"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"user@carrental.com\",\r\n    \"password\": \"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/login",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"full_name\": \"Ibrahim\",\r\n    \"user_name\": \"ibrahim12\",\r\n    \"email\": \"Ibrahim@example.com\",\r\n    \"phone\": \"01012345888\",\r\n    \"address\": \"Cairo, Egypt\",\r\n    \"password\": \"password111\",\r\n    \"password_confirmation\": \"password111\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/register",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UserProfile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "5|EgsSOtWBXGV3qx3Z4hYs7OEhGWW3R3hQRd2348Dfa5cdd434",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/user",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "5|EgsSOtWBXGV3qx3Z4hYs7OEhGWW3R3hQRd2348Dfa5cdd434",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/logout",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Website",
+      "item": [
+        {
+          "name": "Home",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/home",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "home"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cars",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/cars?category_ids[]=2",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "cars"
+              ],
+              "query": [
+                {
+                  "key": "category_ids[]",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Car Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/cars/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "cars",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"car_id\": 4,\r\n    \"pick_up_date\": \"2026-09-20\",\r\n    \"drop_off_date\": \"2026-09-25\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/bookings",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pay Booking",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "8|sZQaXKFr1yJ9L4EgfcPy7wCsUAebVyCifjTkJUiB4f0d8fb9",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"success\",\r\n    \"message\": \"Payment link generated successfully.\",\r\n    \"data\": {\r\n        \"paymob_order_id\": 602862075,\r\n        \"payment_token\": \"eyJhbGciOi...\",\r\n        \"iframe_url\": \"https://accept.paymob.com/api/acceptance/iframes/12345?payment_token=eyJhbGciOi...\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/bookings/13/pay",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "bookings",
+                "13",
+                "pay"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Payments",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "8|sZQaXKFr1yJ9L4EgfcPy7wCsUAebVyCifjTkJUiB4f0d8fb9",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/payments/paymob/callback?merchant_order_id=13&success=true&id=99887766&amount_cents=125000",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "payments",
+                "paymob",
+                "callback"
+              ],
+              "query": [
+                {
+                  "key": "merchant_order_id",
+                  "value": "13"
+                },
+                {
+                  "key": "success",
+                  "value": "true"
+                },
+                {
+                  "key": "id",
+                  "value": "99887766"
+                },
+                {
+                  "key": "amount_cents",
+                  "value": "125000"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"first_name\": \"Nourhan\",\r\n    \"last_name\": \"Ibrahim\",\r\n    \"email\": \"nourhan@example.com\",\r\n    \"message\": \"Hello, I want to inquire about car rentals.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/contact",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Chatbot",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"message\": \"What are the required documents for renting a car?\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/chatbot/message",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "chatbot",
+                "message"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
