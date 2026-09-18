@@ -11,7 +11,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -27,7 +27,7 @@ class AuthController extends Controller
             'email'     => $validated['email'],
             'phone'     => $validated['phone'],
             'address'   => $validated['address'],
-            'password'  => Hash::make($validated['password']),
+            'password'  => $validated['password'], //casts hashed
             'is_admin'  => false,
             'is_active' => true,
         ]);

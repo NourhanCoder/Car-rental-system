@@ -18,8 +18,8 @@ class ChatbotService
    
     public function askAi(string $userPrompt): string
     {
-        // Get the Groq API key from .env file
-        $apiKey = env('GROQ_API_KEY');
+        // Get the Groq API key from config file (Config Caching Safe)
+        $apiKey = config('services.groq.api_key');
 
         // Fetch car categories that currently have available cars in the DB
         $availableCategories = Category::whereHas('cars')->pluck('name')->implode(', ');

@@ -44,4 +44,8 @@ return [
         'exchange_rate'  => env('USD_TO_EGP_RATE', 50),
     ],
 
+    'groq' => [
+        'api_key' => env('GROQ_API_KEY'),
+    ],
+
 ];

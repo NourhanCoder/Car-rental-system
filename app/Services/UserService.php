@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Models\User;
 use App\Services\ImageUploadService;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Hash;
+// use Illuminate\Http\UploadedFile;
+// use Illuminate\Support\Facades\Hash;
 
 
 class UserService
@@ -25,6 +25,7 @@ class UserService
     }
 
 
+    //Notes: Hashed pass used in casts.
        public function createUser(array $data): User
     {
         if (isset($data['role'])) {
@@ -32,7 +33,7 @@ class UserService
             unset($data['role']); 
         }
         
-        $data['password'] = Hash::make($data['password']);
+        // $data['password'] = Hash::make($data['password']);
 
         $data['is_active'] = isset($data['is_active']) ? 1 : 0;
 
@@ -47,9 +48,12 @@ class UserService
     public function updateUser(User $user, array $data): User
     {
 
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
+        // if (!empty($data['password'])) {
+        //     $data['password'] = Hash::make($data['password']);
+        // } else {
+        //     unset($data['password']);
+        // }
+        if (empty($data['password'])) {
             unset($data['password']);
         }
 
